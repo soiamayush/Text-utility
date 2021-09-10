@@ -1,25 +1,68 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Navbar from "./components/Navbar";
+import Textarea from "./components/Textarea"
+import { useState } from "react";
+import Alert from './components/Alert'
+// import About from "./components/About"
+// import {
+//   BrowserRouter as Router,
+//   Switch,
+//   Route,
+//   Link
+// } from "react-router-dom";
 
-function App() {
+import React from 'react'
+
+
+export default function App() {
+  const [mode, setmode] = useState('light') 
+  const [alert, setalert] = useState(null)
+  
+  
+  const togglemode = ()=>{
+    if(mode==='light'){
+      setmode('dark')
+      document.body.style.backgroundColor = '#848C7A'
+      showalert('darkmode has been enabled', 'success')
+    }
+    else{
+      setmode('light')
+      document.body.style.backgroundColor = 'white'
+      showalert('Lightmode has been enabled', 'success')
+
+    }
+  }
+
+  const showalert=(message, type)=>{
+      setalert({
+        message :  message,
+        type : type,
+      })
+      setTimeout(() => {
+        setalert(null)
+      }, 2000);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    // <Router>
+    <>
+    <Navbar togglemode={togglemode} mode={mode}/>
+    <Alert alert={alert}/>
+
+    {/* <Switch> */}
+          {/* <Route exact path="/about"> */}
+            {/* <About /> */}
+          {/* </Route>
+          
+          
+          <Route exact path="/"> */}
+
+    <Textarea mode={mode} showalert={showalert} />
+          {/* </Route>
+        </Switch> */}
+
+
+    </>
+    // </Router>
+  )
 }
 
-export default App;
